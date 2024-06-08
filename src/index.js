@@ -8,6 +8,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import DashboardLayout from './Layout/DashboardLayout';
 import AllDevice from './Content/AllDevice';
 import AddDevice from './Content/AddDevice';
+import EditDevice from './Content/EditDevice';
 const router = createBrowserRouter(
 
   [
@@ -30,6 +31,11 @@ const router = createBrowserRouter(
           
       path: "/add-device",
       element: <AddDevice/>,
+    },
+    {
+          
+      path: "/edit-device/:id",
+      element: <EditDevice/>,
     },
 
 ],}]
