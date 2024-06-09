@@ -66,6 +66,12 @@ if (res[1]===201) {
         copied[idx]=e.target.value
         setPromotionCodes(copied)
     }
+    const onDeletePromotionCode=(e,idx)=>{
+        // const copied=[...promotionCodes]
+        // copied[idx]=e.target.value
+        const filtered=promotionCodes.filter((code,cIdx)=>cIdx!=idx)
+        setPromotionCodes(filtered)
+    }
     const onChangeSales=(e)=>{
         setSales(e.target.value)
     }
@@ -107,20 +113,24 @@ if (res[1]===201) {
             width:"260px"
           }}
           onClick={()=>{
-if (newPromotionCode.toString().trim()!="") {
-    setPromotionCodes(p=>[newPromotionCode,...p])
-    setNewPromotionCode("")
-} else {
-    
-}
-
+            if (newPromotionCode.toString().trim().length < 8) {
+                window.confirm("The promotion code must be 8 digits.");
+                return; // 코드가 8자리 미만이면 함수 종료
+            }
+            // 프로모션 코드가 8자리 이상이면 추가
+            setPromotionCodes(p=>[newPromotionCode,...p]);
+            setNewPromotionCode("");
           }}
           >ADD PROMOTION CODE</Button></div>
           
             {promotionCodes&&promotionCodes.map((p,idx)=><TxtfieldSet 
             value={p}
             onChange={(e)=>{onChangePromotionCode(e,idx)}}
-            title={`Promotion Code ${promotionCodes.length-idx}`}/>)}
+            title={`Promotion Code ${promotionCodes.length-idx}`}
+            useBtn
+            btnTitle={"DELETE"}
+            onClick={(e)=>{onDeletePromotionCode(e,idx)}}
+            />)}
             <TxtfieldSet 
             value={sales}
             onChange={onChangeSales}

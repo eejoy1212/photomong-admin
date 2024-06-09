@@ -89,6 +89,12 @@ if (res[1]===200) {
            
         }
     }
+    const onDeletePromotionCode=(e,idx)=>{
+        // const copied=[...promotionCodes]
+        // copied[idx]=e.target.value
+        const filtered=promotionCodes.filter((code,cIdx)=>cIdx!=idx)
+        setPromotionCodes(filtered)
+    }
     return (
         <div
              className='add-device-content'
@@ -136,20 +142,24 @@ if (res[1]===200) {
             width:"260px"
           }}
           onClick={()=>{
-if (newPromotionCode.toString().trim()!="") {
-    setPromotionCodes(p=>[newPromotionCode,...p])
-    setNewPromotionCode("")
-} else {
-    
-}
-
+            if (newPromotionCode.toString().trim().length < 8) {
+                window.confirm("The promotion code must be 8 digits.");
+                return; // 코드가 8자리 미만이면 함수 종료
+            }
+            // 프로모션 코드가 8자리 이상이면 추가
+            setPromotionCodes(p=>[newPromotionCode,...p]);
+            setNewPromotionCode("");
           }}
           >ADD PROMOTION CODE</Button></div>
           
-            {promotionCodes.map((p,idx)=><TxtfieldSet 
+          {promotionCodes&&promotionCodes.map((p,idx)=><TxtfieldSet 
             value={p}
             onChange={(e)=>{onChangePromotionCode(e,idx)}}
-            title={`Promotion Code ${promotionCodes.length-idx}`}/>)}
+            title={`Promotion Code ${promotionCodes.length-idx}`}
+            useBtn
+            btnTitle={"DELETE"}
+            onClick={(e)=>{onDeletePromotionCode(e,idx)}}
+            />)}
             
             <TxtfieldSet 
             value={sales}
