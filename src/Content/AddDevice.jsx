@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import "./AddDevice.css"
 import TxtfieldSet from '../Components/TxtfieldSet';
 import SelectSet from '../Components/SelectSet';
-import { Button } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { postAddDeivce } from '../apis/device';
 function AddDevice(props) {
@@ -10,21 +10,33 @@ function AddDevice(props) {
     const [name,setName]=useState("")
     const [code,setCode]=useState("")
     const [remain,setRemain]=useState("")
-    const [promotionCode,setPromotionCode]=useState("")
+    const [promotionCodes,setPromotionCodes]=useState("")
     const [sales,setSales]=useState("")
+    const [newPromotionCode,setNewPromotionCode]=useState("")
+    const onChangeNewPromo = (e) => {
+        const inputValue = e.target.value;
+        // 정규식을 사용하여 숫자만 입력되도록 확인
+        if (/^\d*$/.test(inputValue)) {
+            if (inputValue.length<=8) {
+                 // 입력된 값이 숫자인 경우에만 설정
+            setNewPromotionCode(inputValue);
+            }
+           
+        }
+    }
     const addDevice=async()=>{
         const addCondition=
         name.trim()!=""&&
         code.trim()!=""&&
         remain.trim()!=""&&
-        promotionCode.trim()!=""&&
+        // promotionCode.trim()!=""&&
         sales.trim()!=""
 if (addCondition) {
      const newPayload={
             name:name,
             device_code:code,
             remaining_amount:remain,
-            promotion_code:promotionCode,
+            promotion_codes:promotionCodes,
             sales:sales,
         }
         const res=await postAddDeivce(newPayload)
@@ -49,8 +61,10 @@ if (res[1]===201) {
     const onChangeRemain=(e)=>{
         setRemain(e.target.value)
     }
-    const onChangePromotionCode=(e)=>{
-        setPromotionCode(e.target.value)
+    const onChangePromotionCode=(e,idx)=>{
+        const copied=[...promotionCodes]
+        copied[idx]=e.target.value
+        setPromotionCodes(copied)
     }
     const onChangeSales=(e)=>{
         setSales(e.target.value)
@@ -71,10 +85,42 @@ if (res[1]===201) {
             value={remain}
             onChange={onChangeRemain}
             title={"Remaining amount"}/>
-            <TxtfieldSet 
-            value={promotionCode}
-            onChange={onChangePromotionCode}
-            title={"Promotion Code"}/>
+       <div
+          style={{
+            display:"flex",
+            flexDirection:"row",
+            gap:"20px"
+          }}
+          >
+            <TextField
+            size='small'
+            value={newPromotionCode}
+            onChange={onChangeNewPromo}
+            inputProps={{
+                style:{
+                    width:"500px"
+                }
+            }}
+            />   <Button
+          variant='contained'
+          sx={{
+            width:"260px"
+          }}
+          onClick={()=>{
+if (newPromotionCode.toString().trim()!="") {
+    setPromotionCodes(p=>[newPromotionCode,...p])
+    setNewPromotionCode("")
+} else {
+    
+}
+
+          }}
+          >ADD PROMOTION CODE</Button></div>
+          
+            {promotionCodes&&promotionCodes.map((p,idx)=><TxtfieldSet 
+            value={p}
+            onChange={(e)=>{onChangePromotionCode(e,idx)}}
+            title={`Promotion Code ${promotionCodes.length-idx}`}/>)}
             <TxtfieldSet 
             value={sales}
             onChange={onChangeSales}
