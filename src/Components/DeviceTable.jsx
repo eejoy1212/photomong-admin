@@ -60,6 +60,7 @@ fetchDeviceInfo()
             <TableCell align="left">Device Code</TableCell>
             <TableCell align="left">Remaining amount</TableCell>
             <TableCell align="left">Promotion Code</TableCell>
+            <TableCell align="left">IP</TableCell>
             <TableCell align="left">Sales</TableCell>
             <TableCell align="left"></TableCell>
             <TableCell align="left"></TableCell>
@@ -76,6 +77,7 @@ fetchDeviceInfo()
               <TableCell align="left">{row.device_code}</TableCell>
               <TableCell align="left">{row.remaining_amount}</TableCell>
               <TableCell align="left">{row.promotion_code}</TableCell>
+              <TableCell align="left">{row.ip}</TableCell>
               <TableCell align="left">{row.sales}</TableCell>
                <TableCell align="left"><Button
                variant='outlined'

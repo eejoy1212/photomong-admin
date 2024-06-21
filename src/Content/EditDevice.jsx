@@ -12,17 +12,18 @@ function EditDevice(props) {
     const [name,setName]=useState("")
     const [code,setCode]=useState("")
     const [remain,setRemain]=useState("")
+    const [ip,setIp]=useState("")
     const [promotionCodes,setPromotionCodes]=useState([])
     const [sales,setSales]=useState("") 
     const [newPromotionCode,setNewPromotionCode]=useState("")
     const editRow=JSON.parse(sessionStorage.getItem("editRow"))
     useEffect(()=>{
 
-       
+       setIp(editRow.ip)
         setName(editRow.name)
         setCode(editRow.device_code)
         setRemain(editRow.remaining_amount)
-        setPromotionCodes(editRow.promotion_codes)
+        setPromotionCodes(editRow.promotion_code)
         setSales(editRow.sales)
         console.log("edit row",editRow)
     },[])
@@ -31,6 +32,7 @@ function EditDevice(props) {
         name.toString().trim()!=""&&
         code.toString().trim()!=""&&
         remain.toString().trim()!=""&&
+        ip.toString().trim()!=""&&
         // promotionCode.toString().trim()!=""&&
         sales.toString().trim()!=""
 if (editCondition) {
@@ -38,7 +40,8 @@ if (editCondition) {
             name:name,
             device_code:code,
             remaining_amount:remain,
-            promotion_codes:promotionCodes,
+            promotion_code:promotionCodes,
+            ip:ip,
             sales:sales,
         }
         // const idx=parseInt(id.split(":")[1])+1
@@ -71,6 +74,9 @@ if (res[1]===200) {
     }
     const onChangeSales=(e)=>{
         setSales(e.target.value)
+    }
+    const onChangeIp=(e)=>{
+        setIp(e.target.value)
     }
     // const onChangeNewPromo = (e) => {
     //     // Ensure newPromotionCode is 8 characters long
@@ -112,6 +118,10 @@ if (res[1]===200) {
             value={remain}
             onChange={onChangeRemain}
             title={"Remaining amount"}/>
+              <TxtfieldSet
+            value={ip}
+            onChange={onChangeIp}
+            title={"IP"}/>
           <div
           style={{
             width:"100%",

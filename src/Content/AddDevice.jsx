@@ -10,6 +10,7 @@ function AddDevice(props) {
     const [name,setName]=useState("")
     const [code,setCode]=useState("")
     const [remain,setRemain]=useState("")
+    const [ip,setIp]=useState("")
     const [promotionCodes,setPromotionCodes]=useState("")
     const [sales,setSales]=useState("")
     const [newPromotionCode,setNewPromotionCode]=useState("")
@@ -29,14 +30,16 @@ function AddDevice(props) {
         name.trim()!=""&&
         code.trim()!=""&&
         remain.trim()!=""&&
+        ip.trim()!=""&&
         // promotionCode.trim()!=""&&
         sales.trim()!=""
 if (addCondition) {
      const newPayload={
             name:name,
+            ip:ip,
             device_code:code,
             remaining_amount:remain,
-            promotion_codes:promotionCodes,
+            promotion_code:promotionCodes,
             sales:sales,
         }
         const res=await postAddDeivce(newPayload)
@@ -75,6 +78,9 @@ if (res[1]===201) {
     const onChangeSales=(e)=>{
         setSales(e.target.value)
     }
+    const onChangeIp=(e)=>{
+        setIp(e.target.value)
+    }
     return (
         <div
              className='add-device-content'
@@ -91,6 +97,10 @@ if (res[1]===201) {
             value={remain}
             onChange={onChangeRemain}
             title={"Remaining amount"}/>
+                <TxtfieldSet
+            value={ip}
+            onChange={onChangeIp}
+            title={"IP"}/>
        <div
           style={{
             display:"flex",
