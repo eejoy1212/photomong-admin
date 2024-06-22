@@ -17,7 +17,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { IoMenu } from 'react-icons/io5';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 // import InboxIcon from '@mui/icons-material/MoveToInbox';
 // import MailIcon from '@mui/icons-material/Mail';
@@ -72,7 +72,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function DashboardLayout() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-
+const navigate=useNavigate()
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -153,7 +153,11 @@ export default function DashboardLayout() {
               textIndent:"10px"
             }}
             key={"All Devices"} disablePadding>
-              <ListItemButton>
+              <ListItemButton
+                  onClick={()=>{
+                    navigate("/all-devices")
+                  }}
+              >
                 <ListItemIcon>
                   {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
                 </ListItemIcon>
@@ -165,7 +169,11 @@ export default function DashboardLayout() {
                 textIndent:"10px"
               }}
             key={"Add new Device"} disablePadding>
-              <ListItemButton>
+              <ListItemButton
+              onClick={()=>{
+                navigate("/add-device")
+              }}
+              >
                 <ListItemIcon>
                   {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
                 </ListItemIcon>
